@@ -6,3 +6,4 @@
 *.gpkg
 *.db
 *.pbf
+*.duckdb

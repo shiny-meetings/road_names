@@ -10,8 +10,6 @@ all_files <- sapply(all_files,
        function(x){sub("\\.gpkg$", "", x)}, 
        USE.NAMES = FALSE)
 
-  
-
 convert_to_parquet <- function(filename){
   foo <- oe_read(paste0("data/", filename, ".gpkg")) |>
     tibble::as_tibble() 

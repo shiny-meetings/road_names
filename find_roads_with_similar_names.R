@@ -1,32 +1,48 @@
 library(geoarrow)
-# library(osmextract)
-
-# osm_lines <- oe_read(
-#   "data/us-pacific-latest.gpkg"#,
-#   # layer = "lines"
-# )
-# 
-# osm_lines |> 
-#   tibble::as_tibble() |> 
-#   arrow::write_parquet("data/us-pacific-latest.parquet")
 
 system.time({
   tbl <- arrow::open_dataset(
       c(
-        "data/us-pacific-latest.parquet",
-        "data/geofabrik_canada-latest.parquet",
-        "data/us-midwest-latest.parquet",
-        "data/us-northeast-latest.parquet",
-        "data/us-west-latest.parquet",
-        "data/us-south-latest.parquet"
+        "data/us-pacific.parquet",
+        "data/geofabrik_canada.parquet",
+        "data/us-midwest.parquet",
+        "data/us-northeast.parquet",
+        "data/us-west.parquet",
+        "data/us-south.parquet"
       )
-    ) |> 
-      dplyr::filter(stringr::str_detect(name, "Prince")) |>
+    ) |>
+      dplyr::filter(stringr::str_detect(name, "Muldoon Road")) |>
       dplyr::slice_sample(n = 50) |>
+      # dplyr::slice_head(n = 50) |>
       sf::st_as_sf()
 })
 
 
+# get_regional_road <- function(road, region){
+#   file_name <- switch(region,
+#     "US-Pacific" = "data/us-pacific.parquet",
+#     "US-Midwest" = "data/us-midwest.parquet",
+#     "US-Northeast" = "data/us-northeast.parquet",
+#     "US-West" = "data/us-west.parquet",
+#     "US-South" = "data/us-south.parquet",
+#     "Canada" = "data/geofabrik_canada.parquet"
+#   )
+#   arrow::open_dataset(file_name) |> 
+#     dplyr::filter(stringr::str_detect(name, road)) |>
+#     dplyr::slice_sample(n = 2) |>
+#     dplyr::select(name, highway, other_tags, geometry) |> 
+#     sf::st_as_sf()
+# }
+# 
+# get_six_roads <- function(road){
+#   purrr::map_dfr(
+#     c("US-Pacific", "US-Midwest", "US-Northeast", "US-West", "US-South", "Canada"),
+#     ~ get_regional_road(road, .x)
+#   )
+# }
+# 
+# 
+# get_six_roads("Prince")
 
 
 library(leaflet)
