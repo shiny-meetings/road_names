@@ -1,42 +1,54 @@
-library(duckplyr)
+library(geoarrow)
 
 system.time({
-  foo <- duckdbfs::open_dataset(here::here("data/geofabrik_canada-latest.gpkg")) |> 
-    select(name, highway, geometry) 
+  tbl <- arrow::open_dataset(
+    c(
+      "data/us-pacific.parquet",
+      "data/geofabrik_canada.parquet",
+      "data/us-midwest.parquet",
+      "data/us-northeast.parquet",
+      "data/us-west.parquet",
+      "data/us-south.parquet"
+    )
+  ) |>
+    dplyr::filter(stringr::str_detect(name, "Muldoon Road")) |>
+    dplyr::slice_sample(n = 50) |>
+    # dplyr::slice_head(n = 50) |>
+    sf::st_as_sf()
 })
 
-# user  system elapsed 
-# 1.11    0.21    0.88 
 
-road_name <- "Ontario"
-num_of_rows <- 5
+# get_regional_road <- function(road, region){
+#   file_name <- switch(region,
+#     "US-Pacific" = "data/us-pacific.parquet",
+#     "US-Midwest" = "data/us-midwest.parquet",
+#     "US-Northeast" = "data/us-northeast.parquet",
+#     "US-West" = "data/us-west.parquet",
+#     "US-South" = "data/us-south.parquet",
+#     "Canada" = "data/geofabrik_canada.parquet"
+#   )
+#   arrow::open_dataset(file_name) |> 
+#     dplyr::filter(stringr::str_detect(name, road)) |>
+#     dplyr::slice_sample(n = 2) |>
+#     dplyr::select(name, highway, other_tags, geometry) |> 
+#     sf::st_as_sf()
+# }
+# 
+# get_six_roads <- function(road){
+#   purrr::map_dfr(
+#     c("US-Pacific", "US-Midwest", "US-Northeast", "US-West", "US-South", "Canada"),
+#     ~ get_regional_road(road, .x)
+#   )
+# }
+# 
+# 
+# get_six_roads("Prince")
 
-system.time({
-  foo2 <- foo |>  
-    filter(stringr::str_detect(name, road_name)) |> 
-    slice_sample(n = num_of_rows)
-})
-# user  system elapsed 
-# 0.01    0.00    0.01 
-
-foo2 |> 
-  select(name, highway)
-
-system.time({
-  fooz <- foo2 |> 
-    duckdbfs::to_sf()
-})
-# user  system elapsed 
-# 12.83    9.34    7.50 
-
-# library(ggplot2)
-# ggplot(fooz) +
-#   geom_sf()
 
 library(leaflet)
-leaflet(fooz) %>%
+leaflet(tbl) |> 
   # Add OpenStreetMap as base layer
-  addTiles() %>%
+  addTiles() |> 
   # Add the roads as lines
   addPolylines(
     color = "blue",          # line color
