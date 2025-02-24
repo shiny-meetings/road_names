@@ -12,8 +12,8 @@ system.time({
     )
   ) |>
     dplyr::filter(stringr::str_detect(name, "Muldoon Road")) |>
-    dplyr::slice_sample(n = 50) |>
-    # dplyr::slice_head(n = 50) |>
+    # dplyr::slice_sample(n = 50) |>
+    dplyr::slice_head(n = 5) |>
     sf::st_as_sf()
 })
 
