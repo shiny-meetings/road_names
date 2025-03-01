@@ -52,7 +52,8 @@ An app to find all roads with similar names in US and Canada.
   - [x] Second meeting for discussing deployment
     ([Recording](https://www.youtube.com/watch?v=qo3ge3Qck6Q&list=PL3x6DOfs2NGiU6K4FAkVE3y0dZAcaTN3O&index=4))  
 - Day 15 or before:
-  - [x] Deployment
+  - [x]
+    [Deployment](https://01955388-5113-2f88-8bef-76b590a47ee7.share.connect.posit.cloud/)
 
 ## Meetings
 
