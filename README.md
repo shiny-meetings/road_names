@@ -36,21 +36,23 @@ An app to find all roads with similar names in US and Canada.
 **End date: 2025-03-05**
 
 - Day 1 and 2:
-  - [ ] Initial wireframing. You may use AI tools such as
+  - [x] Initial wireframing. You may use AI tools such as
     [tldraw](https://www.tldraw.com/), [shiny
     assistant](https://gallery.shinyapps.io/assistant/#) or [ploomber AI
     editor](https://editor.ploomber.io/)
   - Framework to use:
-    - [ ] shiny only
+    - [x] shiny only
     - [ ] [golem](https://github.com/ThinkR-open/golem)
     - [ ] [rhino](https://github.com/Appsilon/rhino)
     - [ ] shiny + [ambiorix](https://ambiorix.dev/)
 - Day 3:
-  - [ ] First meeting for discussing UI and features  
+  - [x] First meeting for discussing UI and features
+    ([Recording](https://www.youtube.com/watch?v=5XG-MPh0t_A&list=PL3x6DOfs2NGiU6K4FAkVE3y0dZAcaTN3O&index=3))  
 - Day 10:
-  - [ ] Second meeting for discussing deployment  
+  - [x] Second meeting for discussing deployment
+    ([Recording](https://www.youtube.com/watch?v=qo3ge3Qck6Q&list=PL3x6DOfs2NGiU6K4FAkVE3y0dZAcaTN3O&index=4))  
 - Day 15 or before:
-  - [ ] Deployment
+  - [x] Deployment
 
 ## Meetings
 
