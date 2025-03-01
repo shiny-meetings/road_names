@@ -2,7 +2,12 @@
 .Rhistory
 .RData
 .Ruserdata
-*.parquet
+data/geofabrik_canada.parquet
+data/us-midwest.parquet
+data/us-northeast.parquet
+data/us-pacific.parquet
+data/us-south.parquet
+data/us-west.parquet
 *.gpkg
 *.db
 *.pbf

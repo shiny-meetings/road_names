@@ -12,7 +12,7 @@ get_regional_road <- function(road, region){
     "US-Northeast" = "data/us-northeast.parquet",
     "US-West" = "data/us-west.parquet",
     "US-South" = "data/us-south.parquet",
-    "Canada" = "data/geofabrik_canada.parquet"
+    "Canada" = "data/canada.parquet" #"data/geofabrik_canada.parquet"
   )
   new_data <- arrow::open_dataset(file_name) |>
     dplyr::filter(stringr::str_detect(name, road)) |>
@@ -42,10 +42,16 @@ get_roads <- function(road){
   road <- trimws(gsub("\\b(highway|road|street|avenue)\\b\\s*", "", road, ignore.case = TRUE))
   road <- tools::toTitleCase(road)
   
-  purrr::map_dfr(
-    # c("US-Pacific", "US-Midwest", "US-Northeast", "US-West", "US-South", "Canada"),
-    "Canada",
-    ~ get_regional_road(road, .x)
+  tryCatch({
+    purrr::map_dfr(
+      # c("US-Pacific", "US-Midwest", "US-Northeast", "US-West", "US-South", "Canada"),
+      c("Canada"),
+      ~ get_regional_road(road, .x)
+    )
+  },
+  error = function(e){
+    NULL
+  }
   )
 }
 

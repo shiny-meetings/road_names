@@ -6,7 +6,7 @@ library(leaflet)
 library(dplyr)
 library(sf)
 
-ui <- page_fillable(
+ui <- page_fluid(
   title = "Roads Explorer",
   theme = bs_theme(
     bg = '#2b3035',
@@ -34,7 +34,14 @@ ui <- page_fillable(
                    class = 'btn-lg fancy-button')
     )
   ),
-  leafletOutput("lmap")
+  leafletOutput("lmap"),
+  div(
+    style = "background-color: #222; color: white; padding: 20px; margin-top: 20px;",
+    div(
+      class = "container",
+      p("Data source: OpenStreetMap Data Extracts downloaded from geofabrick website")
+    )
+  )
   # story_map(
   #   map_id = "map",
   #   sections = list(
@@ -52,15 +59,26 @@ ui <- page_fillable(
 
 server <- function(input, output, session) {
   road_data <- eventReactive(input$search, {
-    get_roads(input$street_name) |> 
-    rowwise() |> 
-      mutate(lng = get_avg_coords(geometry)[1],
-             lat = get_avg_coords(geometry)[2])
+    result <- get_roads(input$street_name)
+    
+    if (is.null(result)) {
+      showNotification(
+        "No roads found. Please try a different search term.",
+        type = "warning",
+        duration = 5
+      )
+      return(NULL)
+    } else {
+      result |> 
+        rowwise() |> 
+        mutate(lng = get_avg_coords(geometry)[1],
+               lat = get_avg_coords(geometry)[2])
+    }
   })
   
   
   output$lmap <- renderLeaflet({
-    req(road_data)
+    req(road_data())
     
     leaflet(road_data()) |> 
       # Add OpenStreetMap as base layer
